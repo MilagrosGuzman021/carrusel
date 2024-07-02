@@ -7,21 +7,16 @@ const imgRoutes = [
 ]
 
 let counter = 0;
-let iterador = 0
 
 function* nextImage(i){
     while(i<4){
         yield i++;
     }
-
-    counter = i;
 }
-function* prevImage(i=3){
+function* prevImage(i){
     while(i>=0){
         yield i--;
     }
-   
-    counter = i;
 }
 
 function* generator (i){
@@ -29,11 +24,16 @@ function* generator (i){
     i=0;
     yield* generator(i);
 }
+function* generatorPrev (i=3){
+    yield* prevImage(i);
+    i=3;
+    yield* generatorPrev(i);
+}
 const buttonNext = document.getElementById("next");
 const buttonPrev = document.getElementById("prev");
-const iterator = nextImage(counter);
-const iterator2 = prevImage();
+
 const ite = generator(counter)
+const itePrev = generatorPrev();
 
 
 buttonNext.addEventListener("click", ()=>{
@@ -42,6 +42,6 @@ buttonNext.addEventListener("click", ()=>{
 })
 buttonPrev.addEventListener("click", ()=>{
     
-    document.getElementById("img1").setAttribute("src", imgRoutes[iterator2.next().value])
+    document.getElementById("img1").setAttribute("src", imgRoutes[itePrev.next().value])
      
 })
